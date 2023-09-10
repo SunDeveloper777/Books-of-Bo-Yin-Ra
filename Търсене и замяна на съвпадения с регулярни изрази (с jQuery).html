@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)file:///home/myname/Downloads/5.09.2023-Bo-Yin-Ra/test.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Търсене и замяна на съвпадения с регулярни изрази (с jQuery)</title>
+    <style>
+        .paragraph {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
+    <script src="./Търсене и замяна на съвпадения с регулярни изрази (с jQuery)_files/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Търсене и замяна на съвпадения с регулярни изрази (с jQuery)</h1>
+    <label for="regexp">Регулярен израз:</label>
+    <input type="text" id="regexp" placeholder="Въведете регулярен израз">
+    <br>
+    <div id="paragraphs">
+        <div class="paragraph">
+            <p>Първи параграф с текст за търсене.</p>
+        </div>
+        <div class="paragraph">
+            <p>Втори параграф, също с текст за търсене.</p>
+        </div>
+        <div class="paragraph">
+            <p>Трети параграф без съвпадения.</p>
+        </div>
+    </div>
+    <br>
+    <label for="replacement">Замяна с:</label>
+    <input type="text" id="replacement" placeholder="Въведете текст за замяна">
+    <br>
+    <button id="countButton">Брой съвпаденията</button>
+    <button id="markButton">Маркирай съвпаденията</button>
+    <button id="replaceButton">Замени съвпаденията</button>
+    <p>Брой намерени съвпадения: <span id="matchCount">0</span></p>
+
+    <script>
+        $(document).ready(function () {
+            $("#countButton").click(function () {
+                const regexpString = $("#regexp").val();
+                const paragraphs = $(".paragraph p");
+                let matchCount = 0;
+
+                try {
+                    const regex = new RegExp(regexpString, 'g');
+
+                    paragraphs.each(function () {
+                        const text = $(this).text();
+                        const matches = text.match(regex);
+                        matchCount += matches ? matches.length : 0;
+                    });
+
+                    $("#matchCount").text(matchCount);
+                } catch (error) {
+                    alert('Грешка при компилиране на регулярния израз: ' + error.message);
+                }
+            });
+
+            $("#markButton").click(function () {
+                const regexpString = $("#regexp").val();
+                const paragraphs = $(".paragraph p");
+
+                try {
+                    const regex = new RegExp(regexpString, 'g');
+
+                    paragraphs.each(function () {
+                        const text = $(this).text();
+                        const markedText = text.replace(regex, '<span class="highlight">$&</span>');
+                        $(this).html(markedText);
+                    });
+                } catch (error) {
+                    alert('Грешка при компилиране на регулярния израз: ' + error.message);
+                }
+            });
+
+            $("#replaceButton").click(function () {
+                const regexpString = $("#regexp").val();
+                const replacementText = $("#replacement").val();
+                const paragraphs = $(".paragraph p");
+
+                try {
+                    const regex = new RegExp(regexpString, 'g');
+
+                    paragraphs.each(function () {
+                        const text = $(this).text();
+                        const replacedText = text.replace(regex, replacementText);
+                        $(this).text(replacedText);
+                    });
+                } catch (error) {
+                    alert('Грешка при компилиране на регулярния израз: ' + error.message);
+                }
+            });
+        });
+    </script>
+
+
+</body></html>
