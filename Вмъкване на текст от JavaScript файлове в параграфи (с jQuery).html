@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)file:///home/myname/Downloads/5.09.2023-Bo-Yin-Ra/test_02.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Вмъкване на текст от JavaScript файлове в параграфи (с jQuery)</title>
+    <script src="./Вмъкване на текст от JavaScript файлове в параграфи (с jQuery)_files/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Текст от JavaScript файлове</h1>
+    <div id="scriptContent">
+        <!-- Тук ще се добавят параграфите -->
+    <p>    Това е текстът, който искаме да вмъкнем в параграфите на страницата.</p><p>    Можем да го разделим на няколко реда.</p><p>    Например, тук е един нов ред.</p><p>    И тук е друг нов ред.</p><p>    Това е текстът, който искаме да вмъкнем в параграфите на страницата.</p><p>    Можем да го разделим на няколко реда.</p><p>    Например, тук е един нов ред.</p><p>    И тук е друг нов ред.</p></div>
+
+    <script src="./Вмъкване на текст от JavaScript файлове в параграфи (с jQuery)_files/file.js"></script>
+    <script src="./Вмъкване на текст от JavaScript файлове в параграфи (с jQuery)_files/file2.js"></script>
+    <script>
+        $(document).ready(function () {
+            function addTextToParagraphs(text) {
+                const scriptContent = $('#scriptContent');
+                const lines = text.split('\n');
+                lines.forEach(function (line) {
+                    if (line.trim()) {
+                        const paragraph = $('<p></p>').text(line);
+                        scriptContent.append(paragraph);
+                    }
+                });
+            }
+
+            if (typeof scriptText !== 'undefined') {
+                addTextToParagraphs(scriptText);
+            }
+
+            if (typeof scriptText2 !== 'undefined') {
+                addTextToParagraphs(scriptText2);
+            }
+        });
+    </script>
+
+
+</body></html>
