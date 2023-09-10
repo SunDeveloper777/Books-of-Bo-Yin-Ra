@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)file:///home/myname/Downloads/5.09.2023-Bo-Yin-Ra/test.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Добавяне на параграфи от textarea към div (с jQuery)</title>
+    <script src="./test_files/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Добавяне на параграфи от textarea към div (с jQuery)</h1>
+    <textarea id="paragraphInput" placeholder="Въведете текст за нов параграф"></textarea>
+    <button id="addParagraphButton">Добави параграфи</button>
+    <div id="paragraphContainer">
+        <!-- Тук ще се добавят параграфите -->
+    <p>явеявея</p><p>явеявеяев</p><p>явеявеяве</p></div>
+
+    <script>
+        $(document).ready(function () {
+            $("#addParagraphButton").click(function () {
+                const paragraphText = $("#paragraphInput").val().trim();
+
+                if (paragraphText) {
+                    const paragraphs = paragraphText.split('\n'); // Разделя текста по нови редове
+                    paragraphs.forEach(function (text) {
+                        const paragraph = $("<p></p>").text(text);
+                        $("#paragraphContainer").append(paragraph);
+                    });
+
+                    $("#paragraphInput").val(""); // Изчистване на текстовото поле
+                }
+            });
+        });
+    </script>
+
+
+</body></html>
