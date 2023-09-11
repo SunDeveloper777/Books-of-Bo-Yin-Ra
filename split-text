@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Разделяне на текст и запазване на "# том" в текстареа (с jQuery)</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Разделяне на текст и запазване на "# том" в текстареа</h1>
+    <textarea id="inputText" placeholder="Въведете текст"></textarea>
+    <br>
+    <button id="splitAndDisplayButton">Раздели и покажи</button>
+    <br>
+    <div id="outputContainer">
+        <!-- Тук ще бъдат поставени текстареа-тa -->
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#splitAndDisplayButton").click(function () {
+                const inputText = $("#inputText").val();
+                const parts = inputText.split(/(# том)/);
+
+                const outputContainer = $("#outputContainer");
+                outputContainer.empty(); // Изчистваме предишното съдържание
+
+                let currentTextarea = null;
+
+                for (let i = 0; i < parts.length; i++) {
+                    const part = parts[i];
+                    if (part.trim()) {
+                        if (part === "# том") {
+                            if (currentTextarea) {
+                                // Затваряме текущата текстареа
+                                currentTextarea.appendTo(outputContainer);
+                            }
+                            currentTextarea = $("<textarea></textarea>").text(part);
+                        } else {
+                            if (currentTextarea) {
+                                // Добавяме останалата част на текста към текущата текстареа
+                                currentTextarea.val(currentTextarea.val() + part.trim());
+                            }
+                        }
+                    }
+                }
+
+                if (currentTextarea) {
+                    // Затваряме последната текстареа, ако има такава
+                    currentTextarea.appendTo(outputContainer);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
