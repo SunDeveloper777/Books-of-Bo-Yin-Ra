@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<!-- saved from url=(0183)file:///home/myname/Downloads/5.09.2023-Bo-Yin-Ra/%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D1%8F%D0%BD%D0%B5%20%D0%BD%D0%B0%20%D1%82%D0%B5%D0%BA%D1%81%D1%82%20%D0%BD%D0%B0%204%20FULL.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка на правопис (с jQuery)</title>
+    <script src="./Проверка на правопис (с jQuery)_files/jquery-3.6.0.min.js"></script>
+    <style>
+        .red-wave {
+            border-bottom: 2px solid red;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .red-wave::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: red;
+            bottom: -2px;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Проверка на правопис</h1>
+    <textarea id="textToCheck" placeholder="Въведете текст за проверка"></textarea>
+    <button id="checkSpellingButton">Провери правописа</button>
+    <br>
+    <h2>Допълнете речника:</h2>
+    <textarea id="dictionaryTextArea" placeholder="Въведете думи за речника (по една на ред)"></textarea>
+    <button id="addToDictionaryButton">Добави към речника</button>
+    <br>
+    <div id="outputContainer"><p><span class="red-wave">Възпитан</span> от майка си в една благочестива вяра, според която "тронът <span class="red-wave">Божи"</span> е заобиколен от "светци", аз вярвах, че онзи пратеник на високата <span class="red-wave">Общност</span> не би могъл да бъде друг освен такъв един <span class="red-wave">"светец",</span> и <span class="red-wave">то</span> <span class="red-wave">тъкмо</span> <span class="red-wave">оня,</span> <span class="red-wave">когото</span> аз <span class="red-wave">особено</span> <span class="red-wave">почитах</span> и <span class="red-wave">когото</span> <span class="red-wave">охотно</span> си <span class="red-wave">представях</span> в <span class="red-wave">същия</span> <span class="red-wave">образ,</span> в <span class="red-wave">какъвто</span> <span class="red-wave">ми</span> <span class="red-wave">се</span> <span class="red-wave">"явяваше"</span> <span class="red-wave">моят</span> <span class="red-wave">духовен</span> <span class="red-wave">наставник.</span></p><p><span class="red-wave"></span></p><p><span class="red-wave">Традиционните</span> <span class="red-wave">изображения</span> на <span class="red-wave">"светеца"</span> <span class="red-wave">само</span> <span class="red-wave">подсилваха</span> <span class="red-wave">тази</span> <span class="red-wave">моя</span> <span class="red-wave">вяра</span> и <span class="red-wave">когато</span> <span class="red-wave">най-после</span> <span class="red-wave">намерих</span> <span class="red-wave">смелостта</span> да <span class="red-wave">го</span> <span class="red-wave">запитам,</span> от <span class="red-wave">почитаната</span> <span class="red-wave">уста</span> на <span class="red-wave">този</span> <span class="red-wave">възрастен,</span> странен приятел чух думите: <span class="red-wave">"Имаш</span> право, дете мое, а по-късно ще узнаеш и повече за <span class="red-wave">мен!"</span> <span class="red-wave">—</span> <span class="red-wave">—</span> <span class="red-wave">—</span></p><p><span class="red-wave"></span></p><p><span class="red-wave"></span></p></div>
+    <script>
+        let dictionary = ['дума1', 'дума2', 'дума3']; // Вашият списък с думи-речник
+
+        $(document).ready(function () {
+            $("#checkSpellingButton").click(function () {
+                const textToCheck = $("#textToCheck").val();
+                const paragraphs = textToCheck.split('\n');
+
+                const outputContainer = $("#outputContainer");
+                outputContainer.empty(); // Изчистваме предишния резултат
+
+                paragraphs.forEach(function (paragraphText) {
+                    const paragraph = $("<p></p>").html(checkSpelling(paragraphText));
+                    outputContainer.append(paragraph);
+                });
+            });
+
+            $("#addToDictionaryButton").click(function () {
+                const wordsToAdd = $("#dictionaryTextArea").val().split(' ');
+                dictionary = dictionary.concat(wordsToAdd);
+                console.log("Думите са добавени към речника.");
+                $("#dictionaryTextArea").val(""); // Изчистваме въведените думи след добавяне
+            });
+        });
+
+        function checkSpelling(text) {
+            const words = text.split(/\s+/);
+            const checkedWords = words.map(function (word) {
+                if (dictionary.includes(word.toLowerCase())) {
+                    return word;
+                } else {
+                    return `<span class="red-wave">${word}</span>`;
+                }
+            });
+            return checkedWords.join(' ');
+        }
+    </script>
+
+
+</body></html>
