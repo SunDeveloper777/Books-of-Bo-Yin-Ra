@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Търсене на текст в параграфи (с кирилица)</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Търсене на текст в параграфи (с кирилица)</h1>
+    <input type="text" id="search" placeholder="Търси...">
+    <button id="searchButton">Търси</button>
+    <div id="paragraphs">
+        <p>Това е първи параграф с някакви текстове.</p>
+        <p>Втори най-после параграф с различни по-текстове.</p>
+        <p>Трети параграф, с още текст.</p>
+    </div>
+
+    <script>
+        function highlightWords() {
+            var searchText = $("#search").val();
+            if (searchText === "") {
+                $("#paragraphs p").removeClass("highlight");
+                return;
+            }
+
+            var regex1 = new RegExp('^' + searchText + '\\s', "ig");
+            var regex2 = new RegExp('[\\s-]' + searchText + '\\s', "ig");
+            var regex3 = new RegExp('[\\s-]' + searchText + '[\.!\?,-]', "ig");
+
+            $("#paragraphs p").each(function() {
+                var paragraphText = $(this).text();
+
+                paragraphText = paragraphText.replace(regex1, function(match) {
+                    return "<span class='highlight'>" + match + "</span>";
+                });
+
+                paragraphText = paragraphText.replace(regex2, function(match) {
+                    return " <span class='highlight'>" + match.trim() + "</span> ";
+                });
+
+                paragraphText = paragraphText.replace(regex3, function(match) {
+                    return "<span class='highlight'>" + match + "</span> ";
+                });
+
+                $(this).html(paragraphText);
+            });
+        }
+
+        $(document).ready(function() {
+            $("#searchButton").click(function() {
+                highlightWords();
+            });
+        });
+    </script>
+</body>
+</html>
