@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Сортиране на думи</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <textarea id="inputTextArea" rows="10" cols="40"></textarea>
+    <button id="sortButton">Сортирай и филтрирай</button>
+    <div>
+        <label for="outputTextArea">Резултат:</label>
+        <textarea id="outputTextArea" rows="10" cols="40" readonly></textarea>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+    $("#sortButton").click(function(){
+        var inputText = $("#inputTextArea").val();
+        var words = inputText.split(/\s+/).filter(function(word){
+            return word.trim() !== ""; // Филтрираме празните думи
+        });
+        words = words.map(function(word){
+            return word.replace(/[.,\"!\?]/g, '').toLowerCase(); // Изчистваме запетайки и точки
+        });
+        words.sort(); // Сортиране на думите
+        words = words.filter(function (word, index, self) {
+            return self.indexOf(word) === index; // Премахване на повтарящите се думи
+        });
+        var sortedText = words.join("\n"); // Обединяване на сортираните думи с нов ред
+        $("#outputTextArea").val(sortedText); // Показване на сортирания текст в новото текстово поле
+    });
+});
+
+    </script>
+</body>
+</html>
