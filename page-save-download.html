@@ -1,5 +1,8 @@
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>
+
+
+<!-- saved from url=(0058)file:///home/user/GIT/ALL-BOOKS/19-Das-hohe-Ziel-text.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>
 
 body {
 
@@ -25,10 +28,10 @@ textarea {
 </style>
 </head>
 <body>
-<button  id="saveButton">save</button>
+<button id="saveButton">save</button>
  <div>
 
-<textarea id="myTextarea" style="width: 630px; height: 701px;">Bô Yin Râ  
+<textarea id="myTextarea" style="width: 630px; height: 701px;">Bô Yin Râ 
 
 Das Hohe Ziel 
 
@@ -863,6 +866,15 @@ Der Meister von Nazareth
     a.click();
 });
 
+document.addEventListener('keydown', function(event) {
+    // Проверка дали бутона, който е бил натиснат, е "Control" (или "Ctrl")
+    if (event.ctrlKey) {
+        // Вашият код за събитието тук
+      changeDefaultText();
+        // Пример: Ако искате да изведете съобщение, когато бутона "Control" бъде натиснат
+        console.log('Бутон "Control" е натиснат.');
+    }
+});
 
     </script>
 
