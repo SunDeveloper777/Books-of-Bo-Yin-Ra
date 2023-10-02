@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Търсене и замяна с регулярни изрази</title>
+</head>
+
+<body>
+<h2>Търсене и замяна с регулярни изрази</h2>
+    <label for="searchRegex">Регулярен израз за търсене:</label>
+    <input value="\n([а-я])" type="text" id="searchRegex" placeholder="Въведете регулярен израз"><br>
+
+    <label for="replaceText">Текст за замяна (поддържа $):</label>
+    <input value=" $1" type="text" id="replaceText" placeholder="Въведете текст за замяна"><br>
+
+    <textarea id="inputTextArea" rows="10" cols="50" placeholder="Въведете текст за търсене и замяна">Не бива да бъдеш упрекван за това и
+слухът ти не бива
+да бъде сепван от тежки думи, защото
+не е твоя винат а, че
+при тези далечни странствувания не си
+успявал да намериш онова, което
+с толкова горещ копнеж си търсил! —
+Били са ти сочени
+пътища, по които
+твоите водачи никога не са вървели!
+Обещавали са ти неща, които те самите
+никога не са намирали!
+Изпращали са те по
+пътеки, които те
+самите отдавна е трябвало да изоставят!</textarea><br>
+    <button id="replaceButton">Изпълни търсене и замяна</button><br>
+
+    <hr>
+    <h2>Резултат:</h2>
+    <textarea rows="10" cols="50" id="outputText"></textarea><br>
+    <button id="generateBtn">Генерирай параграфи</button>
+    <div id="outputDiv2"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+$(document).ready(function () {
+    $("#replaceButton").click(function () {
+        var inputText = $("#inputTextArea").val();
+        var searchRegex = new RegExp($("#searchRegex").val(), "g");
+        var replaceText = $("#replaceText").val() ;
+        var replacedText = inputText.replace(searchRegex, replaceText);
+         $("#outputText").append(replacedText + "\n\n");
+
+
+    });
+});
+
+ $(document).ready(function(){
+            $('#generateBtn').click(function(){
+                var inputText = $('#outputText').val();
+                var lines = inputText.split('\n');
+                
+                lines.forEach(function(line){
+                    if(line.trim() !== '') {
+                        var paragraph = '<p>' + line + '</p>';
+                        $('#outputDiv2').append(paragraph);
+                    }
+                });
+            });
+        });
+</script>
+</body>
+
+</html>
