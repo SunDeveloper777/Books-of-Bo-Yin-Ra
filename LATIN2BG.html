@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Морска Страница</title>
+    <style>
+        body {
+            background-color: #87CEEB; /* Цвят на морето */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FFF; /* Цвят на пясъка */
+            border-radius: 10px;
+            margin-top: 50px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            text-align: center;
+            color: #008080; /* Цвят на тюркоаза */
+        }
+
+        p {
+            text-align: center;
+            color: #006400; /* Тъмно зелен цвят */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Добре дошли в света на морето!</h1>
+        <p>Изследвайте тайните на океана и отпуснете сетивата си.</p>
+
+        <label for="textArea">Въведете латински текст:</label>
+        <textarea id="textArea"></textarea>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#textArea').on('input', function () {
+                var latinText = $(this).val();
+                var cyrillicText = '';
+
+                // Обект със съответствия между латински и кирилица букви
+                var latinToCyrillic = {
+                    a: 'а', b: 'б', c: 'ц', d: 'д', e: 'е', f: 'ф', g: 'г', h: 'х', i: 'и', j: 'й',
+                    k: 'к', l: 'л', m: 'м', n: 'н', o: 'о', p: 'п', q: 'я', r: 'р', s: 'с', t: 'т',
+                    u: 'у', v: 'в', w: 'в', x: 'кс', y: 'й', z: 'з',
+                    A: 'А', B: 'Б', C: 'Ц', D: 'Д', E: 'Е', F: 'Ф', G: 'Г', H: 'Х', I: 'И', J: 'Й',
+                    K: 'К', L: 'Л', M: 'М', N: 'Н', O: 'О', P: 'П', Q: 'Я', R: 'Р', S: 'С', T: 'Т',
+                    U: 'У', V: 'В', W: 'В', X: 'КС', Y: 'Й', Z: 'З'
+                };
+
+                // Преобразуване на латинските букви в кирилица
+                for (var i = 0; i < latinText.length; i++) {
+                    var char = latinText[i];
+                    if (latinToCyrillic.hasOwnProperty(char)) {
+                        cyrillicText += latinToCyrillic[char];
+                    } else {
+                        cyrillicText += char;
+                    }
+                }
+
+                // Показване на текста на кирилица
+                $(this).val(cyrillicText);
+            });
+        });
+    </script>
+     <script>
+      /*  document.addEventListener('DOMContentLoaded', function () {
+            var textArea = document.getElementById('textArea');
+
+            textArea.addEventListener('input', function () {
+                var latinText = this.value;
+                var cyrillicText = '';
+
+                var latinToCyrillic = {
+                    a: 'а', b: 'б', c: 'ц', d: 'д', e: 'е', f: 'ф', g: 'г', h: 'х', i: 'и', j: 'й',
+                    k: 'к', l: 'л', m: 'м', n: 'н', o: 'о', p: 'п', q: 'я', r: 'р', s: 'с', t: 'т',
+                    u: 'у', v: 'в', w: 'в', x: 'кс', y: 'й', z: 'з',
+                    A: 'А', B: 'Б', C: 'Ц', D: 'Д', E: 'Е', F: 'Ф', G: 'Г', H: 'Х', I: 'И', J: 'Й',
+                    K: 'К', L: 'Л', M: 'М', N: 'Н', O: 'О', P: 'П', Q: 'Я', R: 'Р', S: 'С', T: 'Т',
+                    U: 'У', V: 'В', W: 'В', X: 'КС', Y: 'Й', Z: 'З'
+                };
+
+                for (var i = 0; i < latinText.length; i++) {
+                    var char = latinText[i];
+                    if (latinToCyrillic.hasOwnProperty(char)) {
+                        cyrillicText += latinToCyrillic[char];
+                    } else {
+                        cyrillicText += char;
+                    }
+                }
+
+                this.value = cyrillicText;
+            });
+        }); */
+    </script> 
+</body>
+
+</html>
