@@ -10,3 +10,5 @@ https://github.com/SunDeveloper777/Books-of-Bo-Yin-Ra/blob/main/index.html
 web: http://web.archive.org/web/20231004071742/http://5.104.174.130:503/
 
 https://github.com/SunDeveloper777/Books-of-Bo-Yin-Ra/blob/main/index01.html
+https://github.com/SunDeveloper777/Books-of-Bo-Yin-Ra/blob/main/link-generator.png
+![image](https://github.com/SunDeveloper777/Books-of-Bo-Yin-Ra/blob/main/link-generator.png)
