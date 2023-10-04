@@ -4,4 +4,5 @@ Bo Yin Ra - all books - Всички книги от Учението на Bo Yi
 https://github.com/SunDeveloper777/Books-of-Bo-Yin-Ra/blob/main/index.html
 
 
-![image](https://github.com/SunDeveloper777/Books-of-Bo-Yin-Ra/assets/90776857/83359e22-96a6-45b2-a26f-5792048ce423)
+![image](https://github.com/SunDeveloper777/Books-of-Bo-Yin-Ra/assets/90776857/b3fe43bc-3392-4fc5-b7f7-9ecfdc647bff)
+
