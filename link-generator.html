@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генериране на хиперлинкове</title>
+    <link rel="stylesheet" href="styles.css">
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #001F3F; /* Тъмно синьо за заден план */
+    color: #FFFFFF; /* Бял цвят на текста */
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    text-align: center;
+    background-color: #003366; /* Navy цвят за фон на контейнера */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+table {
+    margin: 0 auto;
+}
+
+table td {
+    padding: 10px;
+}
+
+label {
+    color: #66CCFF; /* Морско синьо за цвета на label */
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 150px;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #66CCFF; /* Морско синя граница на input полетата */
+    border-radius: 5px;
+    background-color: #004080; /* Тъмно морско синьо за фон на input полетата */
+    color: #FFFFFF; /* Бял цвят на текста в input полетата */
+}
+
+button {
+    background-color: #007ACC; /* Синьо за бутона */
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #005D79; /* По-тъмно синьо при ховър */
+}
+
+#resultsDiv {
+    margin-top: 20px;
+    color: #FFFFFF; /* Бял цвят на текста в резултатите */
+}
+
+</style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#generateBtn').click(function(){
+                var prefix1 = $('#prefixInput').val();
+                var startNumber1 = parseInt($('#startNumberInput').val());
+                var endNumber1 = parseInt($('#endNumberInput').val());
+
+                var prefix2 = $('#prefixInput2').val();
+
+                var resultsDiv = $('#resultsDiv');
+
+                for (var i = startNumber1; i <= endNumber1; i++) {
+                    var number = i.toString().padStart(4, '0');
+                    var resultText = prefix1 + '_' + number + prefix2;
+                    var link = '<a href="' + resultText + '" target="_blank">' + resultText + '</a><br>';
+                    resultsDiv.append(link);
+                }
+
+               // var number2 = Math.floor(Math.random() * 1000);
+               // var resultText2 = prefix2 + '_' + number2 + '.jp2';
+               // var link2 = '<a href="' + resultText2 + '" target="_blank">' + resultText2 + '</a><br>';
+              //  resultsDiv.append(link2);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Генериране на хиперлинкове</h1>
+        <table>
+            <tr>
+                <td><label for="prefixInput">Префикс:</label></td>
+                <td><input value="image"type="text" id="prefixInput"></td>
+            </tr>
+            <tr>
+                <td><label for="startNumberInput">Начален номер:</label></td>
+                <td><input value="1" type="number" id="startNumberInput"></td>
+            </tr>
+            <tr>
+                <td><label for="endNumberInput">Краен номер:</label></td>
+                <td><input value="10" type="number" id="endNumberInput"></td>
+            </tr>
+            <tr>
+                <td><label for="prefixInput2">Префикс2:</label></td>
+                <td><input value=".jpg" type="text" id="prefixInput2"></td>
+            </tr>
+        </table><br>
+        <button id="generateBtn">Генерирай</button>
+        <div id="resultsDiv"></div>
+    </div>
+</body>
+</html>
