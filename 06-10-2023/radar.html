@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+<title> Conic Gradient Radar (Green/Dark Mode)</title>
+
+ <style>
+@layer design.system, demo.support;
+@layer design.system {
+  :root {
+    --hue: 120;
+    --sat: 0%;
+    --light: 85%;
+    --active-sat: 40%;
+    --active-light: 78%;
+  }
+}
+@layer demo.support {
+  *:where(:not(html, iframe, canvas, img, svg, video, audio):not(svg *, symbol *)) {
+    all: unset;
+    display: revert;
+  }
+
+  :root {
+    font: 1rem/1.5 sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    color-scheme: light dark;
+  }
+
+  body {
+    max-block-size: 100vh;
+    overflow-x: hidden;
+    background: hsl(var(--hue), var(--sat), 9%);
+  }
+
+  a {
+    text-decoration: underline;
+    cursor: pointer;
+    color: inherit;
+  }
+
+  .twitter {
+    position: fixed;
+    display: inline-flex;
+    bottom: 1em;
+    right: 1em;
+    padding: 0.35em;
+    border-radius: 0.5em;
+  }
+  .twitter__svg {
+    fill: none;
+    stroke: hsl(var(--hue), var(--sat), 50%);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .twitter:where(:hover, :focus-visible) {
+    background: hsl(var(--hue), var(--sat), 15%);
+  }
+}
+@layer demo {
+  #app {
+    display: grid;
+    place-content: center;
+    block-size: 100vh;
+  }
+
+  body:has(.radar[aria-pressed=true]) {
+    --sat: var(--active-sat);
+    --light: var(--active-light);
+  }
+
+  @supports not selector(:has(*)) {
+    .radar[aria-pressed=true] {
+      --sat: var(--active-sat);
+      --light: var(--active-light);
+    }
+  }
+  .radar {
+    --inline-size: 12em;
+    --border-size: 0.5em;
+    --screen-line-size: 1px;
+    --padding: 0.5em;
+    --radius: 50%;
+    --duration: 4s;
+    --ease: linear;
+    --stroke: 1px;
+    --point-stroke-size: 1px;
+    --stroke-light-alpha: 0.5;
+    --outline-offset: 0.25em;
+    --outline: 1px solid hsl(var(--hue), var(--sat), 20%);
+    --backgorund: hsl(var(--hue), var(--sat), 9%);
+    --border-color: hsl(var(--hue), var(--sat), 13%);
+    --screen-line-color: hsl(var(--hue), var(--sat), 20%);
+    --stroke-color: hsl(var(--hue), var(--sat), 21%);
+    --point-color: hsl(var(--hue), var(--sat), 80%);
+    --point-stroke-color: hsl(var(--hue), var(--sat), 70%);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    inline-size: var(--inline-size);
+    aspect-ratio: 1;
+    padding: var(--border-size);
+    border-radius: var(--radius);
+    background: var(--backgorund);
+  }
+  .radar:is(:hover, :focus-visible) {
+    cursor: pointer;
+  }
+  .radar:focus-visible {
+    outline: var(--outline);
+    outline-offset: var(--outline-offset);
+  }
+  .radar__outer {
+    --mask: linear-gradient(hsla(var(--hue), var(--sat), 100%, 0.8) 0 0) content-box,
+      linear-gradient(hsl(0 0% 100%) 0 0);
+    position: absolute;
+    inline-size: var(--inline-size);
+    aspect-ratio: 1;
+    padding: var(--border-size);
+    border-radius: var(--radius);
+    -webkit-mask: var(--mask);
+    mask: var(--mask);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    background: var(--border-color);
+    box-shadow: inset 0 0 0 var(--stroke) var(--stroke-color);
+  }
+  .radar__stroke_light {
+    --ng: 90deg;
+    --inner: calc(70% - calc(var(--stroke) - 1px));
+    --outer: calc(var(--inner) + 1px);
+    --mask: radial-gradient(circle, hsla(var(--hue), 0%, 0%, 0) var(--inner), hsl(var(--hue), 0%, 0%) var(--outer));
+    position: absolute;
+    inset: 0;
+    display: block;
+    inline-size: 100%;
+    aspect-ratio: 1;
+    border-radius: var(--radius);
+    -webkit-mask: var(--mask);
+    mask: var(--mask);
+    background: conic-gradient(hsla(var(--hue), 0%, 0%, 0), hsla(var(--hue), var(--sat), 100%, var(--stroke-light-alpha)), hsla(var(--hue), 0%, 0%, 0) var(--ng), hsla(var(--hue), 0%, 0%, 0) 0);
+  }
+  .radar__highlight {
+    position: absolute;
+    display: block;
+    inset: 0;
+    inline-size: 100%;
+    aspect-ratio: 1;
+    background: radial-gradient(50% 50% at 35% 0%, hsl(var(--hue), var(--sat), var(--light)) 0%, transparent 50%);
+    mix-blend-mode: soft-light;
+    animation: rotation var(--duration) var(--ease) infinite;
+  }
+  .radar__inner {
+    position: absolute;
+    inline-size: calc(var(--inline-size) - var(--padding));
+    aspect-ratio: 1;
+    border-radius: var(--radius);
+    background: var(--backgorund);
+  }
+  .radar__light {
+    position: absolute;
+    display: block;
+    inset: 0;
+    inline-size: 100%;
+    aspect-ratio: 1;
+    border-radius: inherit;
+    background: conic-gradient(from 0deg at 50% 50%, hsl(var(--hue), var(--sat), 15%) 0deg, hsl(var(--hue), var(--sat), var(--light)) 359.96deg, hsl(var(--hue), var(--sat), var(--light)) 360deg, hsl(var(--hue), var(--sat), 15%) 270deg);
+    box-shadow: 0 0.75em 0.75em 0.25em hsla(var(--hue), 0%, 0%, 0.3);
+    mix-blend-mode: color-dodge;
+    filter: blur(0.1875em);
+    animation: rotation var(--duration) var(--ease) infinite;
+    z-index: 1;
+  }
+  .radar__screen {
+    position: absolute;
+    inset: 0;
+  }
+  .radar__svg, .radar__points {
+    inline-size: 100%;
+    block-size: 100%;
+    fill: transparent;
+  }
+  .radar__svg {
+    position: absolute;
+    mix-blend-mode: color-dodge;
+  }
+  .radar__line, .radar__ring {
+    stroke: var(--screen-line-color);
+    stroke-width: var(--screen-line-size);
+  }
+  .radar__point {
+    transform: translate(50%, 50%) rotate(calc(var(--n) * 1deg - 90deg));
+  }
+  .radar__circle {
+    stroke: var(--point-stroke-color);
+    stroke-width: var(--point-stroke-size);
+    fill: var(--point-color);
+    filter: drop-shadow(0 0 0.25em hsl(var(--hue), var(--sat), 90%));
+    mix-blend-mode: hard-light;
+    transform: translate(calc((var(--y) * 1% / 2)), 1px);
+    animation: point var(--duration) var(--ease) infinite;
+    animation-delay: calc(var(--n) / 360 * var(--duration));
+    opacity: 0;
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes point {
+    0%, 12.5% {
+      opacity: 0.3;
+    }
+    25%, 82.5% {
+      opacity: 0;
+    }
+  }
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+ </head>
+
+<body translate="no">
+  <main id="app">
+  <button class="radar" id="btn1" type="button" aria-label="radar" aria-pressed="false">
+    <div class="radar__outer">
+      <div class="radar__stroke_light"></div>
+      <div class="radar__highlight"></div>
+    </div>
+    <div class="radar__inner"> 
+      <div class="radar__light"></div>
+      <div class="radar__screen">
+        <svg class="radar__svg" version="1.1" width="192" height="192" viewBox="0 0 192 192">
+          <line class="radar__line" x1="0" y1="96" x2="192" y2="96"></line>
+          <line class="radar__line" x1="96" y1="0" x2="96" y2="192"></line>
+          <circle class="radar__ring" cx="96" cy="96" r="80"></circle>
+          <circle class="radar__ring" cx="96" cy="96" r="60"></circle>
+          <circle class="radar__ring" cx="96" cy="96" r="40"></circle>
+          <circle class="radar__ring" cx="96" cy="96" r="20"></circle>
+        </svg>
+        <svg class="radar__points" version="1.1" width="100%" height="100%">
+          <g class="radar__point" style="--n: 50; --y: 50;">
+            <circle class="radar__circle" r="3"></circle>
+          </g>
+          <g class="radar__point" style="--n: 170; --y: 70;">
+            <circle class="radar__circle" r="3"></circle>
+          </g>
+          <g class="radar__point" style="--n: 240; --y: 80;">
+            <circle class="radar__circle" r="3"></circle>
+          </g>
+          <g class="radar__point" style="--n: 270; --y: 45;">
+            <circle class="radar__circle" r="3"></circle>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+</main>
+  
+      <script id="rendered-js" >
+function createOnOffButton(selector) {
+  const button = document.querySelector(selector);
+
+  function togglePower() {
+    const isPressed = button.getAttribute('aria-pressed') === 'true';
+    button.setAttribute('aria-pressed', String(!isPressed));
+  }
+
+  button.addEventListener('click', togglePower);
+
+  return {
+    power: togglePower };
+
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  createOnOffButton('#btn1');
+});
+//# sourceURL=pen.js
+    </script>
+
+  
+</body>
+
+</html>

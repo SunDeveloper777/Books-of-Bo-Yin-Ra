@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таймер</title>
+    <style>
+        body {
+            background-color: #87CEEB; /* Светло синьо за небето */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #FDF5E6; /* Бежов цвят за пясъка */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sea {
+            background-color: #007ACC; /* Синьо за морето */
+            height: 150px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        label, input, button {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #004080; /* Тъмно синьо за бутона */
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #001F3F; /* По-тъмно синьо при ховър */
+        }
+
+        #timer {
+            font-size: 36px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="sea"></div>
+        <label for="intervalInput">Интервал (в минути):</label>
+        <input type="number" id="intervalInput" min="1" step="1"><br>
+        <button onclick="startTimer()">Стартирай таймер</button>
+        <div id="timer"></div>
+    </div>
+
+    <script>
+        var timer;
+
+        function startTimer() {
+            var intervalInput = document.getElementById('intervalInput').value;
+            var duration = parseInt(intervalInput, 10) * 60; // превръщаме минутите в секунди
+            if (isNaN(duration) || duration <= 0) {
+                alert('Моля, въведете валиден интервал в минути.');
+                return;
+            }
+
+            var display = document.querySelector('#timer');
+            clearInterval(timer);
+
+            timer = setInterval(function () {
+                var minutes = parseInt(duration / 60, 10);
+                var seconds = parseInt(duration % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--duration < 0) {
+                    duration = parseInt(intervalInput, 10) * 60;
+                    playSound(); // Възпроизвеждане на звук на всеки интервал
+                }
+            }, 1000);
+        }
+
+        function playSound() {
+            var audio = new Audio('bach.mp3'); // Пътят до вашия аудио файл
+            audio.play();
+        }
+    </script>
+</body>
+
+</html>

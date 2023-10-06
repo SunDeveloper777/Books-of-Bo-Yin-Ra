@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)file:///home/user/GIT/Books-of-Bo-Yin-Ra/TIMER/analogClock2.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <link rel="stylesheet" href="file:///home/user/GIT/Books-of-Bo-Yin-Ra/TIMER/style.css">
+    <script src="file:///home/user/GIT/Books-of-Bo-Yin-Ra/TIMER/index.js"></script>
+</head>
+
+<body>
+    <div id="clockContainer">
+        <div id="hour" style="transform: rotate(458.5deg);"></div>
+        <div id="minute" style="transform: rotate(102deg);"></div>
+        <div id="second" style="transform: rotate(108deg);"></div>
+    </div>
+
+
+
+<style>
+    #clockContainer {
+    position: relative;
+    margin: auto;
+    height: 40vw;
+    /*to make the height and width responsive*/
+    width: 40vw;
+    background: url(https://media.geeksforgeeks.org/wp-content/uploads/20210302161254/imgonlinecomuaCompressToSizeOmNATjUMFKw-300x300.jpg) no-repeat;
+    /*setting our background image*/
+    background-size: 100%;
+    }
+    
+    #hour,
+    #minute,
+    #second {
+    position: absolute;
+    background: black;
+    border-radius: 10px;
+    transform-origin: bottom;
+    }
+    
+    #hour {
+    width: 1.8%;
+    height: 25%;
+    top: 25%;
+    left: 48.85%;
+    opacity: 0.8;
+    }
+    
+    #minute {
+    width: 1.6%;
+    height: 30%;
+    top: 19%;
+    left: 48.9%;
+    opacity: 0.8;
+    }
+    
+    #second {
+    width: 1%;
+    height: 40%;
+    top: 9%;
+    left: 49.25%;
+    opacity: 0.8;
+    }
+</style>
+<script>
+    setInterval(() => {
+    d = new Date(); //object of date()
+    hr = d.getHours();
+    min = d.getMinutes();
+    sec = d.getSeconds();
+    hr_rotation = 30 * hr + min / 2; //converting current time
+    min_rotation = 6 * min;
+    sec_rotation = 6 * sec;
+    
+    hour.style.transform = `rotate(${hr_rotation}deg)`;
+    minute.style.transform = `rotate(${min_rotation}deg)`;
+    second.style.transform = `rotate(${sec_rotation}deg)`;
+    }, 1000);
+</script></body></html>

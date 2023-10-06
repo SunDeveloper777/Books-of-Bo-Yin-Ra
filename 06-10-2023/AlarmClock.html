@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+     <meta name="apple-mobile-web-app-title" content="CodePen">
+
+     <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" /> 
+
+     <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" /> 
+
+
+
+  
+    < <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+
+
+   <title>CodePen - Alarm Clock in HTML CSS &amp; JavaScript</title> 
+
+    <link rel="canonical" href="https://codepen.io/groundtutorial/pen/abjGWgK">
+  
+  
+  
+  
+<style>
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background-color: #377dff;
+}
+.hide {
+  display: none;
+}
+.wrapper {
+  background-color: #ffffff;
+  width: 90%;
+  max-width: 27.25em;
+  padding: 3.12em 5em;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 0.5em;
+}
+.timer-display {
+  font-size: 2.18em;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,139,253,0.25);
+  padding: 10px 30px;
+  font-family: "Roboto Mono", monospace;
+}
+.inputs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  margin-top: 2em;
+}
+.inputs input {
+  width: 2.8em;
+  font-size: 1.3em;
+  border: 1px solid #000000;
+  border-radius: 0.1em;
+  padding: 0.4em 0.2em;
+}
+#set {
+  background-color: #377dff;
+  border: none;
+  padding: 1em 2.2em;
+  display: block;
+  margin: 1.5em auto 0 auto;
+  border-radius: 0.2em;
+  color: #ffffff;
+}
+.alarm {
+  display: grid;
+  grid-template-columns: 8fr 2fr 2fr;
+  gap: 1em;
+  margin-top: 1.5em;
+  align-items: center;
+  border-bottom: 1px solid #898f9b;
+  padding-bottom: 0.6em;
+}
+.alarm input[type="checkbox"] {
+  appearance: none;
+  height: 2em;
+  width: 3.75em;
+  background-color: #e2e2ec;
+  border-radius: 1em;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+.alarm input[type="checkbox"]:before {
+  position: absolute;
+  content: "";
+  background-color: #757683;
+  height: 1.43em;
+  width: 1.43em;
+  border-radius: 50%;
+  top: 0.25em;
+  left: 0.25em;
+}
+.alarm input[type="checkbox"]:checked {
+  background-color: #d2e2ff;
+}
+.alarm input[type="checkbox"]:checked:before {
+  background-color: #377dff;
+  left: 2em;
+}
+.deleteButton {
+  background-color: transparent;
+  font-size: 1.5em;
+  color: #377dff;
+  border: none;
+  cursor: pointer;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+<div class="wrapper">
+      <div class="timer-display">00:00:00</div>
+      <div class="container">
+        <div class="inputs">
+          <input
+            type="number"
+            id="hourInput"
+            placeholder="00"
+            min="0"
+            max="23"
+          />
+          <input
+            type="number"
+            id="minuteInput"
+            placeholder="00"
+            min="0"
+            max="59"
+          />
+        </div>
+        <button id="set">Add Alarm</button>
+        <div class="activeAlarms"></div>
+      </div>
+    </div>
+  
+      <script id="rendered-js" >
+//Initial References
+let timerRef = document.querySelector(".timer-display");
+const hourInput = document.getElementById("hourInput");
+const minuteInput = document.getElementById("minuteInput");
+const activeAlarms = document.querySelector(".activeAlarms");
+const setAlarm = document.getElementById("set");
+let alarmsArray = [];
+let alarmSound = new Audio("https://raw.githubusercontent.com/himalayasingh/music-player-1/master/music/2.mp3");
+
+let initialHour = 0,
+initialMinute = 0,
+alarmIndex = 0;
+
+//Append zeroes for single digit
+const appendZero = value => value < 10 ? "0" + value : value;
+
+//Search for value in object
+const searchObject = (parameter, value) => {
+  let alarmObject,
+  objIndex,
+  exists = false;
+  alarmsArray.forEach((alarm, index) => {
+    if (alarm[parameter] == value) {
+      exists = true;
+      alarmObject = alarm;
+      objIndex = index;
+      return false;
+    }
+  });
+  return [exists, alarmObject, objIndex];
+};
+
+//Display Time
+function displayTimer() {
+  let date = new Date();
+  let [hours, minutes, seconds] = [
+  appendZero(date.getHours()),
+  appendZero(date.getMinutes()),
+  appendZero(date.getSeconds())];
+
+
+  //Display time
+  timerRef.innerHTML = `${hours}:${minutes}:${seconds}`;
+
+  //Alarm
+  alarmsArray.forEach((alarm, index) => {
+    if (alarm.isActive) {
+      if (`${alarm.alarmHour}:${alarm.alarmMinute}` === `${hours}:${minutes}`) {
+        alarmSound.play();
+        alarmSound.loop = true;
+      }
+    }
+  });
+}
+
+const inputCheck = inputValue => {
+  inputValue = parseInt(inputValue);
+  if (inputValue < 10) {
+    inputValue = appendZero(inputValue);
+  }
+  return inputValue;
+};
+
+hourInput.addEventListener("input", () => {
+  hourInput.value = inputCheck(hourInput.value);
+});
+
+minuteInput.addEventListener("input", () => {
+  minuteInput.value = inputCheck(minuteInput.value);
+});
+
+//Create alarm div
+
+const createAlarm = alarmObj => {
+  //Keys from object
+  const { id, alarmHour, alarmMinute } = alarmObj;
+  //Alarm div
+  let alarmDiv = document.createElement("div");
+  alarmDiv.classList.add("alarm");
+  alarmDiv.setAttribute("data-id", id);
+  alarmDiv.innerHTML = `<span>${alarmHour}: ${alarmMinute}</span>`;
+
+  //checkbox
+  let checkbox = document.createElement("input");
+  checkbox.setAttribute("type", "checkbox");
+  checkbox.addEventListener("click", e => {
+    if (e.target.checked) {
+      startAlarm(e);
+    } else {
+      stopAlarm(e);
+    }
+  });
+  alarmDiv.appendChild(checkbox);
+  //Delete button
+  let deleteButton = document.createElement("button");
+  deleteButton.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+  deleteButton.classList.add("deleteButton");
+  deleteButton.addEventListener("click", e => deleteAlarm(e));
+  alarmDiv.appendChild(deleteButton);
+  activeAlarms.appendChild(alarmDiv);
+};
+
+//Set Alarm
+setAlarm.addEventListener("click", () => {
+  alarmIndex += 1;
+
+  //alarmObject
+  let alarmObj = {};
+  alarmObj.id = `${alarmIndex}_${hourInput.value}_${minuteInput.value}`;
+  alarmObj.alarmHour = hourInput.value;
+  alarmObj.alarmMinute = minuteInput.value;
+  alarmObj.isActive = false;
+  console.log(alarmObj);
+  alarmsArray.push(alarmObj);
+  createAlarm(alarmObj);
+  hourInput.value = appendZero(initialHour);
+  minuteInput.value = appendZero(initialMinute);
+});
+
+//Start Alarm
+const startAlarm = e => {
+  let searchId = e.target.parentElement.getAttribute("data-id");
+  let [exists, obj, index] = searchObject("id", searchId);
+  if (exists) {
+    alarmsArray[index].isActive = true;
+  }
+};
+
+//Stop alarm
+const stopAlarm = e => {
+  let searchId = e.target.parentElement.getAttribute("data-id");
+  let [exists, obj, index] = searchObject("id", searchId);
+  if (exists) {
+    alarmsArray[index].isActive = false;
+    alarmSound.pause();
+  }
+};
+
+//delete alarm
+const deleteAlarm = e => {
+  let searchId = e.target.parentElement.parentElement.getAttribute("data-id");
+  let [exists, obj, index] = searchObject("id", searchId);
+  if (exists) {
+    e.target.parentElement.parentElement.remove();
+    alarmsArray.splice(index, 1);
+  }
+};
+
+window.onload = () => {
+  setInterval(displayTimer);
+  initialHour = 0;
+  initialMinute = 0;
+  alarmIndex = 0;
+  alarmsArray = [];
+  hourInput.value = appendZero(initialHour);
+  minuteInput.value = appendZero(initialMinute);
+};
+//# sourceURL=pen.js
+    </script>
+
+  
+</body>
+
+</html>
