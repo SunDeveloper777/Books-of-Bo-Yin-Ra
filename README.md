@@ -16,3 +16,4 @@ https://github.com/SunDeveloper777/Books-of-Bo-Yin-Ra/blob/main/link-generator.h
 
 ![image](https://github.com/SunDeveloper777/Books-of-Bo-Yin-Ra/assets/90776857/cb8ee61a-0374-4c03-ad23-5883c1f1ec3e)
 
+https://github.com/SunDeveloper777/Books-of-Bo-Yin-Ra/tree/64bd10dc4c1c944e63d1c906b22c3ebe97b7bfa9/Editor-Cleaner-Html-TinyMCE
