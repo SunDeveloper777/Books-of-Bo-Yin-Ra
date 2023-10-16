@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
-    <button id="screenshotButton">Направи снимка на цялата страница</button>
-    <div id="screenshotArea">
-        <!-- Съдържание, което искате да се заснеме -->
-        <h1>Заснемете ме!</h1>
-        <p>Този текст ще бъде заснет в снимката.</p>
-		<p>Това те възлагат само на ония
+    <button id="screenshotButton">Направи снимка на видимата част</button>
+	<p>Това те възлагат само на ония
 свои духания синове и братя, на които духовният Закон е предопределил да бъдат
 „деятели”.</p>
 
@@ -145,11 +141,22 @@
 духовния Човек. — там, където се извисява най-високата планина на земята, — е
 недостъпно за всеки, когото те сами не са повели духовно към своята среда.</p>
 
-    </div>
-
     <script>
         document.getElementById("screenshotButton").addEventListener("click", function() {
-            html2canvas(document.getElementById("screenshotArea")).then(function(canvas) {
+            // Определете размерите на видимата част на страницата
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+
+            // Определете текущите позиции на скрола
+            var x = window.scrollX;
+            var y = window.scrollY;
+
+            html2canvas(document.body, {
+                width: width,
+                height: height,
+                x: x,
+                y: y
+            }).then(function(canvas) {
                 var imgData = canvas.toDataURL("image/jpeg");
                 var a = document.createElement('a');
                 a.href = imgData;
