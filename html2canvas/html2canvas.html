@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screenshot Example</title>
+    <!-- Включете библиотеката html2canvas -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+    <h1>Натиснете бутона, за да направите screenshot на страницата</h1>
+    <!-- Бутон, който ще генерира screenshot -->
+    <button onclick="takeScreenshot()">Снимай</button>
+
+    <!-- Див, в който ще бъде показван screenshot-ът -->
+    <div id="screenshot-container"></div>
+
+    <script>
+        function takeScreenshot() {
+            // Вземете целия body елемент
+            html2canvas(document.body).then(function(canvas) {
+                // Конвертирайте canvas в изображение
+                var screenshot = canvas.toDataURL();
+                
+                // Създайте нов елемент за изображението
+                var img = new Image();
+                img.src = screenshot;
+                
+                // Покажете изображението в div с id "screenshot-container"
+                document.getElementById('screenshot-container').appendChild(img);
+            });
+        }
+    </script>
+</body>
+</html>
